@@ -1,0 +1,27 @@
+name: Build ReShade 6.8.0 without startup banner
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download stable ReShade
+        run: git clone --branch v6.8.0 --depth 1 --recurse-submodules https://github.com/crosire/reshade.git reshade
+      - name: Apply startup banner patch
+        working-directory: reshade
+        run: git apply --check ../reshade-6.8.0-hide-startup.patch; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; git apply ../reshade-6.8.0-hide-startup.patch
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: microsoft/setup-msbuild@v2
+      - name: Build 64-bit DLL with full add-on support
+        working-directory: reshade
+        run: msbuild ReShade.sln /m /p:Configuration=Release /p:Platform=64-bit
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ReShade-6.8.0-x64-no-startup-addon
+          path: reshade/bin/x64/Release/ReShade64.dll
+          if-no-files-found: error
