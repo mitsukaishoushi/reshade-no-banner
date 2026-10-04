@@ -1,3 +1,16 @@
+diff --git a/source/runtime.cpp b/source/runtime.cpp
+index 9ad4b62e..95704d0d 100644
+--- a/source/runtime.cpp
++++ b/source/runtime.cpp
+@@ -3482,7 +3482,7 @@ void reshade::runtime::reload_effects(bool force_load_all)
+ 
+ #if RESHADE_GUI
+ 	_preset_is_modified = false;
+-	_show_splash = true; // Always show splash bar when reloading everything
++	_show_splash = false; // Keep splash bar hidden when reloading everything
+ 	_reload_count++;
+ #endif
+ 	_last_reload_successful = true;
 diff --git a/source/runtime.hpp b/source/runtime.hpp
 index 5c204b20..bd429910 100644
 --- a/source/runtime.hpp
