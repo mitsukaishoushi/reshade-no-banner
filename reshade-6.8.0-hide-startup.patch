@@ -1,0 +1,26 @@
+diff --git a/source/runtime.hpp b/source/runtime.hpp
+index 5c204b20..bd429910 100644
+--- a/source/runtime.hpp
++++ b/source/runtime.hpp
+@@ -419,7 +419,7 @@ namespace reshade
+ 		#pragma region Overlay
+ 		ImGuiContext *_imgui_context = nullptr;
+ 
+-		bool _show_splash = true;
++		bool _show_splash = false;
+ 		bool _show_overlay = false;
+ 		unsigned int _show_fps = 2;
+ 		unsigned int _show_clock = false;
+diff --git a/source/runtime_gui.cpp b/source/runtime_gui.cpp
+index 3217ae06..eee5b3d0 100644
+--- a/source/runtime_gui.cpp
++++ b/source/runtime_gui.cpp
+@@ -1781,7 +1781,7 @@ void reshade::runtime::draw_gui_home()
+ 			if (_preset_is_incomplete)
+ 				ImGui::OpenPopup("##presetincomplete");
+ 
+-			_show_splash = true;
++			_show_splash = false;
+ 			_preset_is_modified = false;
+ 			_last_preset_switching_time = _last_present_time;
+ 			_is_in_preset_transition = true;
